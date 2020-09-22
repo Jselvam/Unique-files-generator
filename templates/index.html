@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Unique file generator</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.min.css')}}">
+    <style>
+        .scrollabletextbox {
+    height:100%;
+    width:100%;
+    font-family: monospace;
+    font-size: 82%;
+    overflow:scroll;
+    color: white;
+    background-color: black;
+}
+    </style>
+</head>
+<body>
+
+<div class="container-fluid" id="app">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card text-black bg-primary">
+                <h5 class="card-header  text-white">
+                    Unique files generator
+                </h5>
+                <div class="card-body">
+                    <div class="jumbotron">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form role="form" name="filegeneratorform" action="" method="post">
+                                    <div class="form-group">
+
+                                        <!-- <input type="file" class="form-control-file" id="exampleInputFile"
+                                               name="destination" onchange="selectFolder(event)" webkitdirectory
+                                               mozdirectory msdirectory odirectory directory> -->
+                                        <h6 id="selectedpath">Data folder : <b> {{ response.desktop_location }} </b>
+                                        </h6>
+                                        <hr>
+                                        <input type=" text" class="form-control" id="exampleInputPassword1"
+                                               placeholder="Subfolder Name  [Optional]" name="foldername"/>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="filetype" value="text" checked/> Text File
+                                        </label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label>
+                                            <input type="checkbox" name="filetype" value="image" checked/> Image Files
+                                        </label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label>
+                                            <input type="checkbox" name="filetype" value="pdf" checked/> PDF File
+                                        </label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label>
+                                            <input type="checkbox" name="filetype" value="xlsx" checked/> Excel File
+                                        </label>
+                                    </div>
+                                    <hr>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="radio" name="size" value="KB" checked/> Small file size (<
+                                            500KB)
+                                        </label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label>
+                                            <input type="radio" name="size" value="MB" checked/> Large file size
+                                            (>5MB)
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary float-right">
+                                        Generate Unique Files
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <textarea class="scrollabletextbox" name="logsoutput" id="logsoutput"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer  text-white">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="{{url_for('static', filename='jquery.js')}}"></script>
+
+<script src="{{url_for('static', filename='bootstrap.bundle.min.js')}}"></script>
+
+<script src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
+
+<script src="{{url_for('static', filename='sweetalert.js')}}"></script>
+
+<script>
+var ispost = {{ response.ispost }}
+var messages = {{ jsdata|safe }};
+messages.reverse()
+
+var timeout = setInterval(function(){
+  if (messages.length){
+    doSetTimeout(messages.pop())
+  }
+ }, 300);
+
+function doSetTimeout(message) {
+ var textarea = document.getElementById('logsoutput');
+    textarea.value+=message;
+    textarea.scrollTop = textarea.scrollHeight;
+    if (!messages.length){
+        clearTimeout(timeout);
+        if (ispost){
+        swal("Yahoo!", "Unique file generated \n Please check: {{ response.desktop_location }}  ", "success");
+        }
+    }
+}
+
+
+</script>
+
+</body>
+</html>
